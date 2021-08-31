@@ -1,8 +1,8 @@
-first_name,last_name,company_name,address,city,county,phone,email
-James,Butt,"Benton, John B Jr",6649 N Blue Gum St,New Orleans,Orleans,504-621-8927,jbutt@gmail.com
-Roberts,Taujenis,Apple,Helsingor 3,Copengahen,Denmark,4528300100,rob3r7s@gmail.com
-Josephine,Darakjy,"Chanay, Jeffrey A Esq",4 B Blue Ridge Blvd,Brighton,Livingston,810-292-9388,josephine_darakjy@darakjy.org
-Art,Venere,"Chemel, James L Cpa",8 W Cerritos Ave #54,Bridgeport,Gloucester,856-636-8749,art@venere.org
-Lenna,Paprocki,Feltz Printing Service,639 Main St,Anchorage,Anchorage,907-385-4412,lpaprocki@hotmail.com
-Richard,Taujenis,Cognizant,Kolejowa 45 ,Warsaw,Poland,48697094000,Mozesthegreat@yahoo.com
-Agata ,Balcerowiak,IGN,Kolejowa 45 ,Warsaw,Poland,48511352400,Mozes711@yahoo.com
+first_name,last_name,company_name,phone,email
+James,Butt,"Benton, John B Jr",504-621-8927,jbutt@gmail.com
+Roberts,Taujenis,Apple,4528300100,rob3r7s@gmail.com
+Josephine,Darakjy,"Chanay, Jeffrey A Esq",810-292-9388,josephine_darakjy@darakjy.org
+Art,Venere,"Chemel, James L Cpa",856-636-8749,art@venere.org
+Lenna,Paprocki,Feltz Printing Service,907-385-4412,lpaprocki@hotmail.com
+Richard,Taujenis,Cognizant,48697094000,Mozesthegreat@yahoo.com
+Agata ,Balcerowiak,ING,48511352400,Mozes711@yahoo.com
