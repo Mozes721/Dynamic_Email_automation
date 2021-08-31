@@ -3,7 +3,7 @@ import smtplib
 from email.message import EmailMessage
 import phonenumbers as phonenumbers
 from phonenumbers import geocoder
-
+ 
 df = pd.read_csv('contacts.csv')
 
 print(df.columns)
