@@ -13,7 +13,7 @@ print(df['email'])
 my_contact = df.loc[(df['first_name'] == 'Richard') & (df['last_name'] == 'Taujenis'), ['email']]
 print(my_contact)
 
-
+ 
  #if individiual
 def individual():
    print("individual pressed")
