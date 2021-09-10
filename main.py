@@ -6,7 +6,7 @@ from phonenumbers import geocoder
 
 #read csv file
 df = pd.read_csv('contacts.csv')
-
+ 
 #get email
 print(df['email'])
 
