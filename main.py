@@ -23,19 +23,22 @@ def individual():
    print('#'*10)
    try:
       user = input('Please write the user you want to send the email to: ')
-      if user in df['first_name'] + ' ' + df['last_name']:
+      user_name = user.split()
+      first_name = user_name[0]
+      last_name = user_name[1]
+      print(last_name)
+      if df.loc[(df['first_name'] == first_name) & (df['last_name'] == last_name), ['email']]:
          print("Chosen " + user)
       else:
          print("User not in list")
-   except ValueError:
-      print("Wrong value given!")
-      #if bulk
+   except SystemExit:
+      return
+   
 def bulk():
    print("bulk pressed")
       
 #prompt if send email to all contact or individual
 def main():
-   while True:
    try:
       prompt = int(input('''Do you want to send to individual contact email or all:\n For individual press 1 \n For bulk send press 2 \n>'''))
       if prompt == 1:
@@ -45,9 +48,10 @@ def main():
       else:
          print("Only 1 or 2 is accepted. Try again...")
    except Exception:
-      print("Sorry. Not accepted comand. Try again...")
-      
+      print("Sorry. Not accepted comand or incorrect input provided...")
+      return
          
    
 if __name__ == '__main__':
+   runing_main = True
    main()
