@@ -1,8 +1,13 @@
 import pandas as pd
 import smtplib
 from email.message import EmailMessage
-import phonenumbers as phonenumbers
+import phonenumbers
 from phonenumbers import geocoder
+from phonenumbers.phonenumberutil import region_code_for_country_code
+
+
+send_from = ''
+send_to = ''
 
 #read csv file
 df = pd.read_csv('contacts.csv')
@@ -21,22 +26,33 @@ def individual():
    for user in df['first_name'] + ' ' + df['last_name']:
       print(user)
    print('#'*10)
+   user = input('Please write the user you want to send the email to: ')
+   user_name = user.split()
+   first_name = user_name[0]
+   last_name = user_name[1]
    try:
-      user = input('Please write the user you want to send the email to: ')
-      user_name = user.split()
-      first_name = user_name[0]
-      last_name = user_name[1]
-      print(last_name)
-      if df.loc[(df['first_name'] == first_name) & (df['last_name'] == last_name), ['email']]:
-         print("Chosen " + user)
-      else:
-         print("User not in list")
+      user = df.loc[(df.first_name == first_name) & (df.last_name == last_name)]
+      print(user)
+      return send_mail(user)
    except SystemExit:
       return
+
    
 def bulk():
    print("bulk pressed")
       
+def send_mail(user):
+   phone = ''.join(user.phone)
+   print(phone)
+   # number = phonenumbers.parse(user['phone'][0], 'en')
+   # print(number)
+   number = phonenumbers.parse(phone, 'en')
+   country = geocoder.description_for_number(number, 'en')
+   country_index = region_code_for_country_code(number.country_code)
+   print(number)
+   print(country)
+   print(country_index)
+
 #prompt if send email to all contact or individual
 def main():
    try:
@@ -46,8 +62,9 @@ def main():
       if prompt == 2:
          bulk()
       else:
-         print("Only 1 or 2 is accepted. Try again...")
-   except Exception:
+         pass
+   except ValueError as e:
+      print(e)
       print("Sorry. Not accepted comand or incorrect input provided...")
       return
          
