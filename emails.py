@@ -5,7 +5,7 @@ content_split = email_text.splitlines()
 
 meetup_subject = content_split[0]
 meetup_text = content_split[1]
-
+ 
 job_rejection_subject =  content_split[2]
 job_rejection_text =  content_split[3]
 
