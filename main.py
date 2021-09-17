@@ -1,14 +1,18 @@
 import pandas as pd
-import smtplib
-from email.message import EmailMessage
+from emails import *
+from mailer import Mailer
+import goslate
 import phonenumbers
 from phonenumbers import geocoder
 from phonenumbers.phonenumberutil import region_code_for_country_code
- 
 
 send_from = ''
 send_to = ''
 
+text = 'My name is Richard'
+gs = goslate.Goslate()
+
+print(gs.translate(text, 'ru'))
 #read csv file
 df = pd.read_csv('contacts.csv')
  
