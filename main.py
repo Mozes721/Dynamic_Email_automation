@@ -9,18 +9,18 @@ from phonenumbers.phonenumberutil import region_code_for_country_code
 send_from = ''
 send_to = ''
 
-text = 'My name is Richard'
-gs = goslate.Goslate()
+# text = 'My name is Richard'
+# gs = goslate.Goslate()
 
-print(gs.translate(text, 'ru'))
-#read csv file
+# print(gs.translate(text, 'ru'))
+# #read csv file
 df = pd.read_csv('contacts.csv')
  
-#get email
-print(df['email'])
+# #get email
+# print(df['email'])
 
-my_contact = df.loc[(df['first_name'] == 'Richard') & (df['last_name'] == 'Taujenis'), ['email']]
-print(my_contact)
+# my_contact = df.loc[(df['first_name'] == 'Richard') & (df['last_name'] == 'Taujenis'), ['email']]
+# print(my_contact)
 
  
  #if individiual
@@ -37,7 +37,7 @@ def individual():
    try:
       user = df.loc[(df.first_name == first_name) & (df.last_name == last_name)]
       print(user)
-      return send_mail(user)
+      return check_contact(user, user_name)
    except SystemExit:
       return
 
@@ -45,17 +45,34 @@ def individual():
 def bulk():
    print("bulk pressed")
       
-def send_mail(user):
+def check_contact(user, user_name):
    phone = ''.join(user.phone)
-   print(phone)
-   # number = phonenumbers.parse(user['phone'][0], 'en')
-   # print(number)
    number = phonenumbers.parse(phone, 'en')
+   global country
    country = geocoder.description_for_number(number, 'en')
-   country_index = region_code_for_country_code(number.country_code)
-   print(number)
-   print(country)
-   print(country_index)
+   country_index = region_code_for_country_code(number.country_code).lower()
+   choose_lang = input('Would you like to transalte email to users native language? \n >Yes or No: \n').lower()
+   if choose_lang == 'yes':
+      send_email(user, user_name ,country_index)
+   if choose_lang == 'no':
+      send_email(user, user_name)
+
+
+def send_email(user, user_name, lang='en'):
+   full_name = ' '.join(user_name)
+   email = ''.join(user.email)
+   language = ''.join(lang)
+   print("You will send email to %s who's email is %s and will be written in native language of %s." % (full_name, email, country))
+   for index, (key, value) in enumerate(email_content.items()):
+      print(index, key)
+      print("#"*10)
+      print(value)
+
+      #input = int("Please select subject by integer value start from 0, 1 etc")
+  
+
+
+
 
 #prompt if send email to all contact or individual
 def main():

@@ -14,3 +14,5 @@ discount_text = content_split[5]
 
 subjects = [meetup_subject, job_rejection_subject, discount_subject]
 texts = [meetup_text, job_rejection_text, discount_text]
+
+email_content = dict(zip(subjects, texts))
