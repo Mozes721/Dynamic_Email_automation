@@ -1,6 +1,10 @@
 import pandas as pd
+import sys
+import time
 from emails import *
-from mailer import Mailer
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 import goslate
 import phonenumbers
 from phonenumbers import geocoder
@@ -10,7 +14,7 @@ send_from = ''
 send_to = ''
 
 # text = 'My name is Richard'
-# gs = goslate.Goslate()
+
 
 # print(gs.translate(text, 'ru'))
 # #read csv file
@@ -53,26 +57,51 @@ def check_contact(user, user_name):
    country_index = region_code_for_country_code(number.country_code).lower()
    choose_lang = input('Would you like to transalte email to users native language? \n >Yes or No: \n').lower()
    if choose_lang == 'yes':
-      send_email(user, user_name ,country_index)
+      choose_lang_fnc(user, user_name ,country_index)
    if choose_lang == 'no':
-      send_email(user, user_name)
+      choose_lang_fnc(user, user_name)
 
 
-def send_email(user, user_name, lang='en'):
+def choose_lang_fnc(user, user_name, lang='en'):
    full_name = ' '.join(user_name)
    email = ''.join(user.email)
-   language = ''.join(lang)
-   print("You will send email to %s who's email is %s and will be written in native language of %s." % (full_name, email, country))
-   for index, (key, value) in enumerate(email_content.items()):
-      print(index, key)
-      print("#"*10)
-      print(value)
-
-      #input = int("Please select subject by integer value start from 0, 1 etc")
-  
-
-
-
+   # language = ''.join(lang)
+   print("X"*20)
+   time.sleep(6)
+   choose_email()
+   if lang != 'en':
+      time.sleep(4)
+      gs = goslate.Goslate()
+      print("You will send email to %s who's email is %s and email will be transated to native language of %s." % (full_name, email, country))
+      translated = []
+      # translated_subject = gs.translate(selected_email_temlate[0], 'fr')
+      # translated_text = gs.translate(selected_email_temlate[1], 'fr')
+      # print(translated_subject)
+      translated.append(gs.translate(selected_email_temlate[0]), lang)
+      translated.append(gs.translate(selected_email_temlate[1]), lang)
+      print(translated)
+   else:
+      print("You will send email to %s who's email is %s and email will be written in English" % (full_name, email))
+      send_email(full_name, email)
+   
+def send_email(full_name, email):
+   sender_address = 'taujenisrichard@gmail.com'
+   sender_pass = 'Asebomu12#'
+   #Setup the MIME
+   message = MIMEMultipart()
+   message['From'] = sender_address
+   message['To'] = email
+   message['Subject'] = selected_email_temlate[0]
+   #The body and the attachments for the mail
+   message.attach(MIMEText('Dear %s \n' %(full_name) + selected_email_temlate[1] + '\n Best Regards, \n Richard Taujenis', 'plain'))
+   #Create SMTP session for sending the mail
+   session = smtplib.SMTP('smtp.gmail.com', 587) #use gmail with port
+   session.starttls() #enable security
+   session.login(sender_address, sender_pass) #login with mail_id and password
+   text = message.as_string()
+   session.sendmail(sender_address, email, text)
+   session.quit()
+   print('Mail Sent')
 
 #prompt if send email to all contact or individual
 def main():

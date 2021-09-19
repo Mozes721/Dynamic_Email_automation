@@ -1,3 +1,5 @@
+import sys
+selected_email_temlate = []
 f = open('email_text.txt')
 
 email_text = f.read()
@@ -16,3 +18,24 @@ subjects = [meetup_subject, job_rejection_subject, discount_subject]
 texts = [meetup_text, job_rejection_text, discount_text]
 
 email_content = dict(zip(subjects, texts))
+email_list = list(email_content.items())
+
+def choose_email():
+   for index, (key, value) in enumerate(email_content.items()):
+      print("*"*10)
+      print(index)
+      print("*"*10)
+      print(key)
+      print("#"*10)
+      print(value)
+   index = int(input("Please select subject by integer value start from 0, 1 etc: "))
+   if index in range(len(email_list)):
+#       print("*"*10)
+#       print(subjects[index])
+#       print("*"*10)
+#       print(texts[index])
+      selected_email_temlate.append(subjects[index])
+      selected_email_temlate.append(texts[index])
+   else:
+      print("Wrong input or index provided")
+      sys.exit()
