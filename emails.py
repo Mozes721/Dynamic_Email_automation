@@ -19,7 +19,7 @@ texts = [meetup_text, job_rejection_text, discount_text]
 
 email_content = dict(zip(subjects, texts))
 email_list = list(email_content.items())
-
+ 
 def choose_email():
    for index, (key, value) in enumerate(email_content.items()):
       print("*"*10)
