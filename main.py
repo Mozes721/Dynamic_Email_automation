@@ -47,7 +47,12 @@ def individual():
 
    
 def bulk():
-   print("bulk pressed")
+   print("You will send emails to the whole list...")
+   for index, row in df.iterrows():
+      full_name = ''.join(row['first_name'] + ' ' + row['last_name'])
+      send_email(full_name, row['email'])
+      time.sleep(2)
+      print("To %s to leads email: %s " % (full_name, row['email']))
       
 def check_contact(user, user_name):
    phone = ''.join(user.phone)
@@ -68,7 +73,6 @@ def choose_lang_fnc(user, user_name, lang='en'):
    # language = ''.join(lang)
    print("X"*20)
    time.sleep(6)
-   choose_email()
    if lang != 'en':
       time.sleep(4)
       gs = goslate.Goslate()
@@ -93,7 +97,7 @@ def send_email(full_name, email):
    message['To'] = email
    message['Subject'] = selected_email_temlate[0]
    #The body and the attachments for the mail
-   message.attach(MIMEText('Dear %s \n' %(full_name) + selected_email_temlate[1] + '\n Best Regards, \n Richard Taujenis', 'plain'))
+   message.attach(MIMEText('Dear %s \n' %(full_name) + ',' + selected_email_temlate[1] + '\n Best Regards, \n Richard Taujenis', 'plain'))
    #Create SMTP session for sending the mail
    session = smtplib.SMTP('smtp.gmail.com', 587) #use gmail with port
    session.starttls() #enable security
@@ -105,6 +109,7 @@ def send_email(full_name, email):
 
 #prompt if send email to all contact or individual
 def main():
+   choose_email()
    try:
       prompt = int(input('''Do you want to send to individual contact email or all:\n For individual press 1 \n For bulk send press 2 \n>'''))
       if prompt == 1:
