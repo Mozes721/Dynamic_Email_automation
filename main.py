@@ -90,7 +90,7 @@ def choose_lang_fnc(user, user_name, lang='en'):
    
 def send_email(full_name, email):
    sender_address = 'taujenisrichard@gmail.com'
-   sender_pass = 'Asebomu12#'
+   sender_pass = 'yourPW'
    #Setup the MIME
    message = MIMEMultipart()
    message['From'] = sender_address
