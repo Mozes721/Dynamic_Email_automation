@@ -90,14 +90,14 @@ def choose_lang_fnc(user, user_name, lang='en'):
    
 def send_email(full_name, email):
    sender_address = 'taujenisrichard@gmail.com'
-   sender_pass = 'yourPW'
+   sender_pass = 'Asebomu12#'
    #Setup the MIME
    message = MIMEMultipart()
    message['From'] = sender_address
    message['To'] = email
    message['Subject'] = selected_email_temlate[0]
    #The body and the attachments for the mail
-   message.attach(MIMEText('Dear %s \n' %(full_name) + ',' + selected_email_temlate[1] + '\n Best Regards, \n Richard Taujenis', 'plain'))
+   message.attach(MIMEText('Dear %s \n' %(full_name) + selected_email_temlate[1] + '\n Best Regards, \n Richard Taujenis', 'plain'))
    #Create SMTP session for sending the mail
    session = smtplib.SMTP('smtp.gmail.com', 587) #use gmail with port
    session.starttls() #enable security
