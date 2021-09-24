@@ -1,32 +1,17 @@
 import pandas as pd
-import sys
 import time
 from emails import *
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-import goslate
+from deep_translator import GoogleTranslator 
 import phonenumbers
 from phonenumbers import geocoder
 from phonenumbers.phonenumberutil import region_code_for_country_code
- 
-send_from = ''
-send_to = ''
 
-# text = 'My name is Richard'
-
-
-# print(gs.translate(text, 'ru'))
 # #read csv file
 df = pd.read_csv('contacts.csv')
- 
-# #get email
-# print(df['email'])
 
-# my_contact = df.loc[(df['first_name'] == 'Richard') & (df['last_name'] == 'Taujenis'), ['email']]
-# print(my_contact)
-
- 
  #if individiual
 def individual():
    print("Individual chosen")
@@ -45,14 +30,15 @@ def individual():
    except SystemExit:
       return
 
-   
 def bulk():
    print("You will send emails to the whole list...")
    for index, row in df.iterrows():
       full_name = ''.join(row['first_name'] + ' ' + row['last_name'])
-      send_email(full_name, row['email'])
+      introduction = 'Dear %s \n' % (full_name)
+      regards = '\n Best Regards, \n Richard Taujenis'
+      send_email(introduction, row['email'], regards)
       time.sleep(2)
-      print("To %s to leads email: %s " % (full_name, row['email']))
+      print("To %s to leads email: %s " % (introduction, row['email']))
       
 def check_contact(user, user_name):
    phone = ''.join(user.phone)
@@ -60,6 +46,7 @@ def check_contact(user, user_name):
    global country
    country = geocoder.description_for_number(number, 'en')
    country_index = region_code_for_country_code(number.country_code).lower()
+   print('Country code is : %s ' % country_index)
    choose_lang = input('Would you like to transalte email to users native language? \n >Yes or No: \n').lower()
    if choose_lang == 'yes':
       choose_lang_fnc(user, user_name ,country_index)
@@ -70,25 +57,26 @@ def check_contact(user, user_name):
 def choose_lang_fnc(user, user_name, lang='en'):
    full_name = ' '.join(user_name)
    email = ''.join(user.email)
-   # language = ''.join(lang)
+   introduction = 'Dear %s \n' % (full_name)
+   regards = '\n Best Regards, \n Richard Taujenis'
    print("X"*20)
    time.sleep(6)
    if lang != 'en':
-      time.sleep(4)
-      gs = goslate.Goslate()
+      time.sleep(2)
       print("You will send email to %s who's email is %s and email will be transated to native language of %s." % (full_name, email, country))
-      translated = []
-      # translated_subject = gs.translate(selected_email_temlate[0], 'fr')
-      # translated_text = gs.translate(selected_email_temlate[1], 'fr')
-      # print(translated_subject)
-      translated.append(gs.translate(selected_email_temlate[0]), lang)
-      translated.append(gs.translate(selected_email_temlate[1]), lang)
-      print(translated)
+      introduction = GoogleTranslator(source='auto', target=lang).translate(introduction)
+      regards = GoogleTranslator(source='auto', target=lang).translate(regards)
+      translated_email_subject = GoogleTranslator(source='auto', target=lang).translate(selected_email_temlate[0])
+      translated_email_text = GoogleTranslator(source='auto', target=lang).translate(selected_email_temlate[1])
+      selected_email_temlate.clear()
+      selected_email_temlate.append(translated_email_subject)
+      selected_email_temlate.append(translated_email_text)
+      send_email(introduction, email, regards)
    else:
       print("You will send email to %s who's email is %s and email will be written in English" % (full_name, email))
-      send_email(full_name, email)
+      send_email(introduction, email, regards)
    
-def send_email(full_name, email):
+def send_email(introduction, email, regards):
    sender_address = 'taujenisrichard@gmail.com'
    sender_pass = 'yourPW'
    #Setup the MIME
@@ -97,7 +85,7 @@ def send_email(full_name, email):
    message['To'] = email
    message['Subject'] = selected_email_temlate[0]
    #The body and the attachments for the mail
-   message.attach(MIMEText('Dear %s \n' %(full_name) + selected_email_temlate[1] + '\n Best Regards, \n Richard Taujenis', 'plain'))
+   message.attach(MIMEText(introduction + '\n' + selected_email_temlate[1] + '\n' + regards, 'plain'))
    #Create SMTP session for sending the mail
    session = smtplib.SMTP('smtp.gmail.com', 587) #use gmail with port
    session.starttls() #enable security
