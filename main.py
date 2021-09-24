@@ -8,7 +8,7 @@ from deep_translator import GoogleTranslator
 import phonenumbers
 from phonenumbers import geocoder
 from phonenumbers.phonenumberutil import region_code_for_country_code
-
+ 
 # #read csv file
 df = pd.read_csv('contacts.csv')
 
