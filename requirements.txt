@@ -1,4 +1,5 @@
 smtplib
 pandas
 googletrans
-geocoder
+deep_translator
+phonenumbers
