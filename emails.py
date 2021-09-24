@@ -22,12 +22,6 @@ email_list = list(email_content.items())
  
 def choose_email():
    for index, (key, value) in enumerate(email_content.items()):
-      print("*"*10)
-      print(index)
-      print("*"*10)
-      print(key)
-      print("#"*10)
-      print(value)
    index = int(input("Please select subject by integer value start from 0, 1 etc: "))
    if index in range(len(email_list)):
       selected_email_temlate.append(subjects[index])
