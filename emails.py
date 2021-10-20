@@ -30,7 +30,7 @@ def choose_email():
       print("#"*10)
       print(value)
    index = int(input("Please select subject by integer value start from 0, 1 etc: "))
-   if index in range(len(email_list)):
+   if index in range(len(email_list)): 
       selected_email_temlate.append(subjects[index])
       selected_email_temlate.append(texts[index])
    else:
