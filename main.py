@@ -85,7 +85,7 @@ def send_email(introduction, email, regards):
    message['To'] = email
    message['Subject'] = selected_email_temlate[0]
    #The body and the attachments for the mail
-   message.attach(MIMEText(introduction + '\n' + selected_email_temlate[1] + '\n' + regards, 'plain'))
+   message.attach(MIMEText(introduction + selected_email_temlate[1] + '\n' + regards, 'plain'))
    #Create SMTP session for sending the mail
    session = smtplib.SMTP('smtp.gmail.com', 587) #use gmail with port
    session.starttls() #enable security
